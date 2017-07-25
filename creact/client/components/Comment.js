@@ -4,7 +4,7 @@ class Comment extends Component {
   render() {
     return (
       <li className='comment-item'>
-        <span>I am a comment</span>
+        <span>{this.props.comment}</span>
       </li>
     )
   }
