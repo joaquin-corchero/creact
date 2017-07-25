@@ -6,8 +6,15 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   filename: 'index.html',
   inject: 'body'
 })
-module.exports = {
+
+var config = {
   entry: './client/index.js',
+  externals: {
+    'cheerio': 'window',
+    'react/addons': true,
+    'react/lib/ExecutionEnvironment': true,
+    'react/lib/ReactContext': true
+  },
   output: {
     path: path.resolve('dist'),
     filename: 'index_bundle.js'
@@ -20,3 +27,5 @@ module.exports = {
   },
   plugins: [HtmlWebpackPluginConfig]
 }
+
+module.exports = config;
