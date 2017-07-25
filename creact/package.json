@@ -1,0 +1,9 @@
+{
+  "name": "creact",
+  "version": "1.0.0",
+  "description": "Dotnet Core, React, WebPack, Babel, Enzyme, Mocha app",
+  "main": "index.js",
+  "repository": "https://github.com/joaquin-corchero/creacthttps://github.com/joaquin-corchero/creact",
+  "author": "Joaquin Corchero",
+  "license": "MIT"
+}
