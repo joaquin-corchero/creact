@@ -5,7 +5,7 @@ import chaiEnzyme from 'chai-enzyme'
 
 chai.use(chaiEnzyme()) // Note the invocation at the end
 
-global.expect = expect;
+global.expect = chai.expect;
 global.sinon = sinon;
 global.spy = spy;
 

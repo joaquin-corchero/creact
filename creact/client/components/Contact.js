@@ -5,42 +5,83 @@ class Contact extends Component{
         super(props);
 
         this.state = {
-            email: null,
-            name: null,
-            comment: null,
+            email: '',
+            name: '',
+            comment: '',
             commentSent: null
         };
-        this.sendContactRequest = this.sendContactRequest.bind(this);
+
         this.handleChangeName = this.handleChangeName.bind(this);
         this.handleChangeEmail = this.handleChangeEmail.bind(this);
         this.handleChangeComment = this.handleChangeComment.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    sendContactRequest(e){
-        e.preventDefault();
-    }
 
-    handleChangeName(event){
+    handleChangeName(e){
         this.setState(
-            {name: event.target.value}
+            {name: e.target.value}
         );
     }
 
-    handleChangeEmail(event){
+    handleChangeEmail(e){
         this.setState(
-            {email: event.target.value}
+            {email: e.target.value}
         );
     }
 
-    handleChangeComment(event){
+    handleChangeComment(e){
         this.setState(
-            {comment: event.target.value}
+            {comment: e.target.value}
         );
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        fetch(
+            'https://mywebsite.com/endpoint/', 
+            {
+                method: 'POST',
+                headers: 
+                {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(
+                    this.state
+                )
+            }
+        )
+        .then(function(response) {
+            console.log('jheeeee');
+            console.log('jheeeee');
+            console.log('jheeeee');
+            console.log('jheeeee');
+            if (response.status >= 400) {
+                throw new Error("Bad response from server");
+            }
+            this.setState(
+                {
+                    name: '',
+                    email: '',
+                    comment: '',
+                    commentSent: true
+                }
+            );
+        })
+        .catch((error) => {
+            console.log('There was an exception');
+            this.setState({commentSent : false})
+        });
+        console.log('jheeeee');
+            console.log('jheeeee');
+            console.log('jheeeee');
+            console.log('jheeeee');
     }
 
     render(){
         return(
-            <form method="post">
+            <form id="contactForm" onSubmit={ this.handleSubmit }>
                 <div>
                     <label for="name">Name:</label>
                     <input type="text" id="name" placeholder="Your name" value={this.state.name} onChange={this.handleChangeName} />
@@ -51,10 +92,10 @@ class Contact extends Component{
                 </div>
                 <div>
                     <label for="comment">Comment:</label>
-                    <textarea id="comment" placeholder="Your comment goes here" onChange={this.handleChangeComment}>{this.state.comment}</textarea>
+                    <textarea id="comment" placeholder="Your comment goes here" onChange={this.handleChangeComment} value={this.state.comment} />
                 </div>
                 <div>
-                    <button id="send" type="submit" onClick={ this.sendContactRequest }>Send</button>
+                    <button id="send">Send</button>
                 </div>
             </form>
         );
