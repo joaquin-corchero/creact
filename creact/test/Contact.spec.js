@@ -29,6 +29,7 @@ describe('Contact form',  () => {
         expect(wrapper.state().email).to.equal(null);
         expect(wrapper.state().name).to.equal(null);
         expect(wrapper.state().comment).to.equal(null);
+        expect(wrapper.state().commentSent).to.equal(null);
     });
 
     it('when loaded name should be null', () =>
@@ -39,5 +40,26 @@ describe('Contact form',  () => {
     it('when loaded comment should be null', () =>
     {
         expect(wrapper.state().comment).to.equal(null);
+    });
+
+    it('changes the name state when input changes', () => {
+        const newValue = "A name";
+        wrapper.find('#name').simulate('change', { target: { value: newValue } });
+
+        expect(wrapper.state().name).to.equal(newValue);
+    });
+
+    it('changes the email state when input changes', () => {
+        const newValue = "email@gmail.com";
+        wrapper.find('#email').simulate('change', { target: { value: newValue } });
+
+        expect(wrapper.state().email).to.equal(newValue);
+    });
+
+    it('changes the comment state when input changes', () => {
+        const newValue = "This is the new comment";
+        wrapper.find('#comment').simulate('change', { target: { value: newValue } });
+
+        expect(wrapper.state().comment).to.equal(newValue);
     });
 });

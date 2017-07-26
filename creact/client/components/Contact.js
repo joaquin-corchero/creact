@@ -7,17 +7,55 @@ class Contact extends Component{
         this.state = {
             email: null,
             name: null,
-            comment: null
+            comment: null,
+            commentSent: null
         };
+        this.sendContactRequest = this.sendContactRequest.bind(this);
+        this.handleChangeName = this.handleChangeName.bind(this);
+        this.handleChangeEmail = this.handleChangeEmail.bind(this);
+        this.handleChangeComment = this.handleChangeComment.bind(this);
+    }
+
+    sendContactRequest(e){
+        e.preventDefault();
+    }
+
+    handleChangeName(event){
+        this.setState(
+            {name: event.target.value}
+        );
+    }
+
+    handleChangeEmail(event){
+        this.setState(
+            {email: event.target.value}
+        );
+    }
+
+    handleChangeComment(event){
+        this.setState(
+            {comment: event.target.value}
+        );
     }
 
     render(){
         return(
             <form method="post">
-                <input type="text" id="name"/>
-                <input type="email" id="email"/>
-                <textarea id="comment"/>
-                <button id="submit" type="submit">Send</button>
+                <div>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" placeholder="Your name" value={this.state.name} onChange={this.handleChangeName} />
+                </div>
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" placeholder="mail@gmail.com" value={this.state.email} onChange={this.handleChangeEmail} />
+                </div>
+                <div>
+                    <label for="comment">Comment:</label>
+                    <textarea id="comment" placeholder="Your comment goes here" onChange={this.handleChangeComment}>{this.state.comment}</textarea>
+                </div>
+                <div>
+                    <button id="send" type="submit" onClick={ this.sendContactRequest }>Send</button>
+                </div>
             </form>
         );
     }
