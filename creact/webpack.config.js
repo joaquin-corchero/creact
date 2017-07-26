@@ -16,7 +16,7 @@ var config = {
     'react/lib/ReactContext': true
   },
   output: {
-    path: path.resolve('dist'),
+    path: path.resolve('wwwroot/dist'),
     filename: 'index_bundle.js'
   },
   module: {
