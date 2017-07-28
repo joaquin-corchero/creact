@@ -8,9 +8,9 @@
   "scripts": {
     "test": "mocha --compilers js:babel-register --require ./test/helpers.js --require ./test/dom.js --recursive",
     "test-watch": "npm test -- --watch",
-    "build": "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js --env.prod | node node_modules/webpack/bin/webpack.js --env.prod",
-    "build-react": "webpack -p",
-    "build-css": "webpack --config webpack.config.vendor.js --env.prod",
+    "build": "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js --env.prod & webpack -p",
+    "build-react": "webpack --env.prod",
+    "build-css": "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js --env.prod",
     "build-watch": "webpack-dev-server --port 3000 --devtool eval --progress --colors --hot --content-base wwwroot/dist"
   },
   "devDependencies": {
