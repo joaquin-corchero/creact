@@ -10,6 +10,7 @@
 - Bootstrap
 - Yahoo Weather api
 - Entity Framework core (Lite and in memory for tests)
+- Build with node 6.11.1
 
 ## Running instructions:
 - Download and install the latest version of the [.net framework](https://www.microsoft.com/net/download/core)
