@@ -22,6 +22,7 @@ bld/
 [Oo]bj/
 [Ll]og/
 node-modules/
+wwwroot/
 
 # Visual Studio 2015 cache/options directory
 .vs/

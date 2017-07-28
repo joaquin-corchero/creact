@@ -1,12 +1,5 @@
 const path = require('path');
 
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-  template: './client/index.html',
-  filename: 'index.html',
-  inject: 'body'
-})
-
 var config = {
   entry: './client/index.js',
   externals: {
@@ -17,7 +10,7 @@ var config = {
   },
   output: {
     path: path.resolve('wwwroot/dist'),
-    filename: 'index_bundle.js'
+    filename: 'bundle.js'
   },
   module: {
     loaders: [
@@ -25,7 +18,6 @@ var config = {
       { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ }
     ]
   },
-  plugins: [HtmlWebpackPluginConfig]
 }
 
 module.exports = config;

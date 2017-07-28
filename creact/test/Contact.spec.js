@@ -1,16 +1,21 @@
 import React from 'react';
 import Contact from '../client/components/Contact';
 import sinon from 'sinon';
-import fetchMock from 'fetch-mock';
-
+import * as httpClient from '../client/httpClient';
 
 describe('When working with the contact component',  () => {
-    const wrapper = shallow(<Contact />)
+    const wrapper = shallow(<Contact />);
 
-    function setformFieldValue(id, value)
+    function setformFieldValue(id, value, awrapper)
     {
-        wrapper.find(id).simulate('change', { target: { value: value } });
+        awrapper.find(id).simulate('change', { target: { value: value } });
     };    
+
+    function setFormValues() {
+        setformFieldValue('#name', 'A name', wrapper);
+        setformFieldValue('#email', 'email@gmail.com', wrapper);
+        setformFieldValue('#comment', 'A long, very long comment', wrapper);
+    };
 
     it('contains a form', ()=> {
         expect(wrapper.type()).to.eql('form');
@@ -52,63 +57,72 @@ describe('When working with the contact component',  () => {
 
     it('changes the name state when input changes', () => {
         const newValue = "A name";
-        setformFieldValue('#name' , newValue);
+        setformFieldValue('#name' , newValue, wrapper);
 
         expect(wrapper.state().name).to.equal(newValue);
     });
 
     it('changes the email state when input changes', () => {
         const newValue = "email@gmail.com";
-        setformFieldValue('#email' , newValue);
+        setformFieldValue('#email' , newValue, wrapper);
 
         expect(wrapper.state().email).to.equal(newValue);
     });
 
     it('changes the comment state when input changes', () => {
         const newValue = "This is the new comment";
-        setformFieldValue('#comment' , newValue);
+        setformFieldValue('#comment' , newValue, wrapper);
 
         expect(wrapper.state().comment).to.equal(newValue);
     });
 
     describe('And submitting the form', () => {
-        function setFormValues(){
-            setformFieldValue('#name' , 'A name');
-            setformFieldValue('#email' , 'email@gmail.com');
-            setformFieldValue('#comment' , 'A long, very long comment');
-        };
-        /*
-        it('resets the state when post ok', () =>{
+        const wrapper = mount(<Contact />);
+        let httpClientMock;
+        let post;
+
+        before(function () {
+            httpClientMock = sinon.mock(httpClient);
+            post = httpClientMock.expects("post");
+        });
+
+        afterEach(function(){
+            httpClientMock.restore();
+        });
+
+
+        it('posts the data', () => {
+            post.returns(Promise.resolve({ ok: true }));
+
+            wrapper.find('#contactForm').simulate('submit');
+
+            expect(post.once().callCount).to.equal(1);
+
+            httpClientMock.verify();
+        });
+    });
+
+    describe('And calling the contact created', () => {
+        it('resets the state when post ok', () => {
             setFormValues();
-            var res = new Response('{"hello":"world"}', {
-                status: 200,
-                headers: {
-                'Content-type': 'application/json'
-                }
-            });
-            stubedFetch.returns(Promise.resolve(res));
-            wrapper.find('#contactForm').simulate('submit', { preventDefault() {} })
+            wrapper.instance().contactCreated({ok: "response"});
 
             expect(wrapper.state().name).to.equal('');
             expect(wrapper.state().email).to.equal('');
             expect(wrapper.state().comment).to.equal('');
-            expect(wrapper.state().commentSent).to.equal(true);
-        });*/
-        
-        it('posts the data', () => {
-            fetchMock.post('*', {hello: 'world'});
-            wrapper.find('#send').simulate('click');
-            //assert(jQuery.ajax.calledWithMatch({ url: '/todo/42/items' }));
-            expect(fetchMock.calls().matched.length).to.equal(1);
-            fetchMock.restore();
+            expect(wrapper.state().commentSent).to.be.true;
         });
+    });
 
-        /*
-        it('sets commment sent to false when post fails', () =>{
-            stubedFetch.returns(new Error("oh noes!"));
-            wrapper.find('#send').simulate('click');
+    describe('And calling the contact failed', () => {
+        it('sets commment sent to false when post fails', () => {
+            setFormValues();
+            wrapper.instance().contactFailed("There was an error");
 
             expect(wrapper.state().commentSent).to.equal(false);
-        });*/
+            expect(wrapper.state().name).to.equal('A name');
+            expect(wrapper.state().email).to.equal('email@gmail.com');
+            expect(wrapper.state().comment).to.equal('A long, very long comment');
+        });
     });
 });

@@ -1,10 +1,19 @@
 import React from 'react';
+import Contact from './Contact';
+import Weather from './Weather';
 
-export default class App extends React.Component {
-  render() {
+const App = () => {
     return (
-     <div style={{textAlign: 'center'}}>
-        <h1>Hello World</h1>
-      </div>);
-  }
-}
+        <div>
+            <Weather />
+            <div className="panel panel-primary">
+                <div className="panel-heading">Add contact</div>
+                <div className="panel-body">
+                    <Contact />
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default App;

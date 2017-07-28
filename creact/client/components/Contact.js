@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import * as httpClient from '../httpClient';
+import Success from './Success';
+import Failure from './Failure';
 
 class Contact extends Component{
     constructor(props){
@@ -15,6 +18,8 @@ class Contact extends Component{
         this.handleChangeEmail = this.handleChangeEmail.bind(this);
         this.handleChangeComment = this.handleChangeComment.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.commentCreated = this.commentCreated.bind(this);
+        this.commentFailed = this.commentFailed.bind(this);
     }
 
 
@@ -38,68 +43,63 @@ class Contact extends Component{
 
     handleSubmit(event) {
         event.preventDefault();
-        fetch(
-            'https://mywebsite.com/endpoint/', 
+        return httpClient.post('http://localhost:5000/api/contacts', this.state, this.contactCreated.bind(this), this.contactFailed.bind(this));
+    }
+
+    contactCreated(response) {
+        this.setState(
             {
-                method: 'POST',
-                headers: 
-                {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(
-                    this.state
-                )
+                name: '',
+                email: '',
+                comment: '',
+                commentSent: true
             }
-        )
-        .then(function(response) {
-            console.log('jheeeee');
-            console.log('jheeeee');
-            console.log('jheeeee');
-            console.log('jheeeee');
-            if (response.status >= 400) {
-                throw new Error("Bad response from server");
-            }
-            this.setState(
+        );
+    }
+
+    contactFailed(error) {
+        this.setState({ commentSent: false });
+    }
+
+    commentCreated(component){
+        component.setState(
                 {
                     name: '',
                     email: '',
                     comment: '',
                     commentSent: true
                 }
-            );
-        })
-        .catch((error) => {
-            console.log('There was an exception');
-            this.setState({commentSent : false})
-        });
-        console.log('jheeeee');
-            console.log('jheeeee');
-            console.log('jheeeee');
-            console.log('jheeeee');
+        );
+    }
+
+    commentFailed(component){
+        component.setState({commentSent : false});
     }
 
     render(){
-        return(
-            <form id="contactForm" onSubmit={ this.handleSubmit }>
-                <div>
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" placeholder="Your name" value={this.state.name} onChange={this.handleChangeName} />
+        return (
+            <form action="/" id="contactForm" onSubmit={this.handleSubmit}>
+                <legend>Contact:</legend>
+                {this.state.commentSent === true ? <Success /> : null}
+                
+                {this.state.commentSent === false ? <Failure /> : null}
+                <div className="form-group">
+                    <label htmlFor="name">Name:</label>
+                    <input type="text" name="name" className="form-control" id="name" placeholder="Your name" value={this.state.name} onChange={this.handleChangeName} maxLength="40" required />
                 </div>
-                <div>
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" placeholder="mail@gmail.com" value={this.state.email} onChange={this.handleChangeEmail} />
+                <div className="form-group">
+                    <label htmlFor="email">Email:</label>
+                    <input type="email" name="email" className="form-control" id="email" placeholder="mail@gmail.com" value={this.state.email} onChange={this.handleChangeEmail} maxLength="150" required />
                 </div>
-                <div>
-                    <label for="comment">Comment:</label>
-                    <textarea id="comment" placeholder="Your comment goes here" onChange={this.handleChangeComment} value={this.state.comment} />
+                <div className="form-group">
+                    <label htmlFor="comment">Comment:</label>
+                    <textarea id="comment" name="comment" className="form-control" placeholder="Your comment goes here" onChange={this.handleChangeComment} value={this.state.comment} maxLength="500" required />
                 </div>
-                <div>
-                    <button id="send">Send</button>
-                </div>
+                <button type="submit" id="send" className="btn btn-primary">Send</button>
             </form>
         );
     }
 }
+
 
 export default Contact;

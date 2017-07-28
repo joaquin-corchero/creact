@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:7799/",
+      "applicationUrl": "http://localhost:55393/",
       "sslPort": 0
     }
   },
@@ -15,13 +15,8 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "creact": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "http://localhost:7800"
+    "Creact": {
+      "commandName": "Project"
     }
   }
 }
