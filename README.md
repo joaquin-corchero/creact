@@ -38,8 +38,21 @@ Once the dotnet app is running there are two **endpoints**:
 1. http://localhost:5000/api/contacts (post) to insert contacts
 2. http://localhost:5000/api/contacts to see all the existing ones on the db.
 
-It is quite interesting the possibility of writting "unit tests" against an in memory db, obviously they become integration tests, but is something quite powerful for little apps.
-
-### What is not there
-- There is no design patterns on the server side, the app is to simple for that.
+### What is not there:
+- There is no design patterns on the server side, the app is to simple for that, there are no service, no repos, nothing, if you are looking for complexity it won't be on the server side.
 - I hope in the future add linting and hot reloading
+
+### What I enjoyed:
+It was nice but quite frustrating sometimes to work from scratch with both React and .net Core, sometimes for not having the tooling setup at home, sometimes because unit testing React, for me, has proven not to be always easy.
+
+First time using in memory databases with EF core, quite nice for testing even though you unit tests become automatically integration tests...
+
+Had to do different versions of the app as sometimes got sidetracked onto fights with different package versions or different packages all together...
+
+It has been very rewarding to get the app to this stage, but is not finished...
+
+### What should come up next:
+- Lint
+- Increase the size of the app (react router?)
+- Addition of Redux/Relay-GraphQl ...?
+- Change test framework to jest
