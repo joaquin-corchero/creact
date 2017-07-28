@@ -29,5 +29,15 @@ On the Creact directory there are tests for the client app. You can run them by:
 1. npm run test (single execution)
 2. npm run test-watch (they will keep running)
 
+
 On the same directory there are tasks to keep webpack watching and building your changes
 1. npm run build-watch
+
+
+Once the dotnet app is running there are two **endpoints**:
+1. http://localhost:5000/api/contacts (post) to insert contacts
+2. http://localhost:5000/api/contacts to see all the existing ones on the db.
+
+### What is not there
+- There is no design patterns on the server side, the app is to simple for that.
+- I hope in the future add linting and hot reloading

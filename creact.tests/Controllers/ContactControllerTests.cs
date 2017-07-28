@@ -3,6 +3,9 @@ using Creact.Domain;
 using Creact.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace Creact.Tests.Controllers
@@ -45,7 +48,20 @@ namespace Creact.Tests.Controllers
 
             Execute();
 
-            Assert.IsType<BadRequestResult>(_result);
+            Assert.IsType<BadRequestObjectResult>(_result);
+        }
+
+        [Fact]
+        public void Model_errors_are_returned()
+        {
+            _model = null;
+
+            Execute();
+
+            var expected = new Dictionary<string, string[]>();
+            expected.Add("Name", new string[] { "No contact provided" });
+            var actual = ((BadRequestObjectResult)_result).Value;
+            Assert.Equal(actual, expected);
         }
 
         [Fact]
@@ -61,9 +77,11 @@ namespace Creact.Tests.Controllers
         [Fact]
         public void A_valid_contract_is_added_to_the_data_context()
         {
-            _model = new ContactModel { Name = "name", Email = "email@mail.com", Comment = "the comment" };
+            _model = new ContactModel { Name = Guid.NewGuid().ToString(), Email = "email@mail.com", Comment = "the comment" };
 
             Execute();
+
+            Assert.True(_contactsContext.Contacts.Any(c => c.Name == _model.Name));
         }
     }
 }
