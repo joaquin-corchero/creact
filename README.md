@@ -10,20 +10,18 @@
 - Bootstrap
 - Yahoo Weather api
 - Entity Framework core (Lite and in memory for tests)
-- Build with node 6.11.1
 
 ## Running instructions:
 - Download and install the latest version of the [.net framework](https://www.microsoft.com/net/download/core)
 - Clone the repo.
-- If you are using VS2015 or VS2017 on build the packages should get downloaded.
+- Download [node.js](https://nodejs.org/en/) (created with 6.11.1)
+- If you are using VS2015 or VS2017 and you open the solution, on build the packages should get downloaded.
 - If you prefer go to the console and follow this steps:
-    - cd Creact
     - dotnet restore (restore nuget packages)
     - dotnet build (builds the application)
+    - cd Creact    
     - npm run build (transpiles the React files and minifies css)
     - cd ../Creact.Tests
-    - dotnet restore (restore nuget packages)
-    - dotnet build (builds the application)
     - dotnet test (will run the tests)
 
 On the Creact directory there are tests for the client app. You can run them by:
