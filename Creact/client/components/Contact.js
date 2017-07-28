@@ -11,7 +11,11 @@ class Contact extends Component{
 
         this.state = {
             commentSent: null,
-            fields: {},
+            fields: {
+                name: '',
+                email: '',
+                comment: ''
+            },
             fieldErrors: []
         };
 
@@ -32,7 +36,11 @@ class Contact extends Component{
         this.setState(
             {
                 commentSent: true,
-                fields: {},
+                fields: {
+                    name: '',
+                    email: '',
+                    comment: ''
+                },
                 fieldError: []
             }
         );

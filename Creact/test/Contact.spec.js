@@ -43,7 +43,9 @@ describe('When working with the contact component',  () => {
 
     it('when loaded the model is empty', () =>
     {
-        expect(wrapper.state().fields).to.eql({});
+        expect(wrapper.state().fields.name).to.be.eql('');
+        expect(wrapper.state().fields.email).to.be.eql('');
+        expect(wrapper.state().fields.comment).to.be.eql('');
         expect(wrapper.state().fieldErrors).to.eql([]);
         expect(wrapper.state().commentSent).to.be.null;
     });
@@ -98,7 +100,9 @@ describe('When working with the contact component',  () => {
             setFormValues();
             wrapper.instance().contactCreated({ok: "response"});
 
-            expect(wrapper.state().fields).to.eql({});
+            expect(wrapper.state().fields.name).to.be.eql('');
+            expect(wrapper.state().fields.email).to.be.eql('');
+            expect(wrapper.state().fields.comment).to.be.eql('');
             expect(wrapper.state().fieldError).to.eql([]);
             expect(wrapper.state().commentSent).to.be.true;
         });

@@ -33,7 +33,6 @@ function get (url, callBack){
 
 function checkStatus (response){
     if (response.status >= 200 && response.status < 300) {
-        console.log(`Request successful ${response}`);
         return response;
     } else {
         const error = new Error(`HTTP Error ${response.statusText}`);
@@ -45,7 +44,6 @@ function checkStatus (response){
 }
 
 function parseJSON (response) {
-    console.log('parsing Json');
     return response.json();
 }
 
