@@ -22,7 +22,7 @@ class Weather extends Component {
     showWeather() {
         var channel = this.state.weather.query.results.channel;
         return (
-            <div className="panel panel-info">
+            <div className="panel panel-info weather-forecast">
                 <div className="panel-heading">
                     <img
                         src={channel.image.url}

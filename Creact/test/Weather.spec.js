@@ -7,6 +7,7 @@ describe('When working with the weather component',  () => {
     let wrapper;
     let ClientMock;
     let get;
+
     const data = {
     "query": {
         "results": {
@@ -119,14 +120,10 @@ describe('When working with the weather component',  () => {
 };
 
     beforeEach(() => {
-        console.log(1);
         ClientMock = sinon.mock(Client);
-        console.log(2);
         get = ClientMock.expects("get");
-        console.log(3);
-        wrapper = mount(<Weather />);
-        console.log(4);
         get.returns(Promise.resolve(data));
+        wrapper = mount(<Weather />);
     });
 
     afterEach(() => {
@@ -141,10 +138,8 @@ describe('When working with the weather component',  () => {
     describe('when it shows the weather', () =>
     {
         it('displays the yahoo image', () => {
-            var instance = wrapper.instance();
-            alert(instance.showWeather);
-            instance.showWeather(data);
-            expect(wrapper.find('yahooImage')).to.be.present();
+            wrapper.instance().showWeather(data);
+            expect(wrapper.find('.weather-forecast')).to.be.present();
         });
     });
 
