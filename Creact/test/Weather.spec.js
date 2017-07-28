@@ -119,9 +119,13 @@ describe('When working with the weather component',  () => {
 };
 
     beforeEach(() => {
+        console.log(1);
         ClientMock = sinon.mock(Client);
+        console.log(2);
         get = ClientMock.expects("get");
+        console.log(3);
         wrapper = mount(<Weather />);
+        console.log(4);
         get.returns(Promise.resolve(data));
     });
 
