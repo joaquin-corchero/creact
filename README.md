@@ -24,6 +24,10 @@
     - cd ../Creact.Tests
     - dotnet test (will run the tests)
 
+If you want to build both client and server side every time you build on Visual Studio edit the project file (creact.csproj) and replace 
+`<Target Name="RunWebpack" AfterTargets="ComputeFilesToPublish">` with this `<Target Name="RunWebpack" AfterTargets="ComputeFilesToPublish; Build">`
+
+
 On the Creact directory there are tests for the client app. You can run them by:
 1. npm run test (single execution)
 2. npm run test-watch (they will keep running)
