@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
 
-export let post = (url, data, callBack) => {
+function post(url, data, callBack) {
     return fetch(
         url,
         {
@@ -18,31 +18,37 @@ export let post = (url, data, callBack) => {
     .then(callBack);
 }
 
-export let get = (url, callBack) => {
+function get (url, callBack){
     return fetch(
         url,
-        {
-            method: 'GET',
-            mode: 'no-cors'
-        }
+        { method: 'get' },
     )
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(callBack);
-};
+    .then((response) => {
+        return response.json();
+    }).catch((error) => {
+        console.log(`There was an errror with the request: ${error}`);
+        throw error;
+    });
+}
 
-let checkStatus = (response) => {
+function checkStatus (response){
     if (response.status >= 200 && response.status < 300) {
+        console.log(`Request successful ${response}`);
         return response;
     } else {
         const error = new Error(`HTTP Error ${response.statusText}`);
         error.status = response.statusText;
         error.response = response;
-        console.log(error);
+        console.log(`There was an errror with the request: ${error}`);
         throw error;
     }
 }
 
-let parseJSON = (response) => {
+function parseJSON (response) {
+    console.log('parsing Json');
     return response.json();
 }
+
+const Client = { get, post };
+
+export default Client;

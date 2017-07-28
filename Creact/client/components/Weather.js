@@ -1,6 +1,5 @@
 ﻿import React, { Component } from 'react';
-import * as httpClient from '../httpClient';
-
+import Client from '../Client';
 
 class Weather extends Component {
     constructor(props) {
@@ -8,47 +7,28 @@ class Weather extends Component {
 
         this.state = {
             weatherLoaded: false,
-            content: null
+            weather: null
         };
-
-        this.retrieveWeatherData = this.retrieveWeatherData.bind(this);
-    }
-
-    retrieveWeatherData() {
-        const yahooURL = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(44418)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys';
-        return fetch(
-            yahooURL,
-            { method: 'get' },
-        )
-        .then((response) => {
-            return response.json();
-        }).catch((error) => {
-            console.log(`handleFetch failed: ${error}`);
-            this.setState({ weatherLoaded: false });
-        });
     }
 
     componentDidMount() {
-        this.retrieveWeatherData()
+        const yahooURL = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(44418)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys';
+        return Client.get(yahooURL)
             .then((dataReturn) => {
-                this.setState({ weatherLoaded: true, content: dataReturn });
+                this.setState({ weatherLoaded: true, weather: dataReturn });
             });
     }
 
     showWeather() {
-        var channel = this.state.content.query.results.channel;
+        var channel = this.state.weather.query.results.channel;
         return (
             <div className="panel panel-info">
                 <div className="panel-heading">
-                    <span>
-                        <strong>{channel.item.title}</strong>: {channel.item.condition.temp}F, {channel.item.condition.text}
-                    </span>
                     <img
                         src={channel.image.url}
                         height={channel.image.height}
                         width={channel.image.width}
-                        className="pull-right"
-                    />
+                    /> <span><strong>{channel.item.title}</strong>: {channel.item.condition.temp}F, {channel.item.condition.text}</span>
                 </div>
                 <div className="panel-body container">
                     <div className="row">
@@ -67,7 +47,7 @@ class Weather extends Component {
     render() {
         return (
             <div>
-                {!this.state.content ? null : this.showWeather()}
+                {!this.state.weather ? null : this.showWeather()}
             </div>
         );
     }

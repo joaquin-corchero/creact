@@ -1,7 +1,7 @@
 import React from 'react';
 import Contact from '../client/components/Contact';
 import sinon from 'sinon';
-import * as httpClient from '../client/httpClient';
+import Client from '../client/Client';
 
 describe('When working with the contact component',  () => {
     const wrapper = shallow(<Contact />);
@@ -78,18 +78,17 @@ describe('When working with the contact component',  () => {
 
     describe('And submitting the form', () => {
         const wrapper = mount(<Contact />);
-        let httpClientMock;
+        let ClientMock;
         let post;
 
         before(function () {
-            httpClientMock = sinon.mock(httpClient);
-            post = httpClientMock.expects("post");
+            ClientMock = sinon.mock(Client);
+            post = ClientMock.expects("post");
         });
 
         afterEach(function(){
-            httpClientMock.restore();
+            ClientMock.restore();
         });
-
 
         it('posts the data', () => {
             post.returns(Promise.resolve({ ok: true }));
@@ -98,7 +97,7 @@ describe('When working with the contact component',  () => {
 
             expect(post.once().callCount).to.equal(1);
 
-            httpClientMock.verify();
+            ClientMock.verify();
         });
     });
 
